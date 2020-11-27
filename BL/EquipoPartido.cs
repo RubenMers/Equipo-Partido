@@ -19,7 +19,7 @@ namespace BL
                     var query = context.EquipoPartidoInnerJoin().ToList();
 
                     result.Objects = new List<Object>();
-
+                    //Hola
 
 
                     if (result.Objects != null)
