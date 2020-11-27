@@ -1,0 +1,52 @@
+﻿@model ML.Jugador
+@{
+    ViewBag.Title = "Form";
+}
+
+<h2>Form</h2>
+
+<div class="container">
+    <div class="row">
+        @using (Html.BeginForm("Form", "Jugador", FormMethod.Post))
+        {
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(model => model.IdJugador)
+                </div>
+                <div class="col">
+                    @Html.TextBoxFor(model=>model.IdJugador)
+                    @Html.ValidationMessageFor(model=>model.IdJugador)
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.Nombre)
+                </div>
+                <div class="col">
+                    @Html.TextBoxFor(model=>model.Nombre)
+                    @Html.ValidationMessageFor(model=>model.Nombre)
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.FechaDeNacimiento)
+                </div>
+                <div class="col">
+                    @Html.TextBoxFor(model => model.FechaDeNacimiento)
+                    @Html.ValidationMessageFor(model => model.FechaDeNacimiento)
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.Descripcion)
+                </div>
+                <div class="col">
+                    @Html.TextBoxFor(model => model.Descripcion)
+                    @Html.ValidationMessageFor(model => model.Descripcion)
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.Equipo.IdEquipo)
+                </div>
+                <div class="col">
+                    @Html.TextBoxFor(model => model.Equipo.IdEquipo)
+                    @Html.ValidationMessageFor(model => model.Equipo.IdEquipo)
+                </div>
+            </div>
+            <input type="submit" name="Update" />
+        }
+    </div>
+</div>

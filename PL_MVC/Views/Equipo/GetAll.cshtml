@@ -1,0 +1,60 @@
+﻿@model ML.Equipo
+@{
+    ViewBag.Title = "GetAll";
+}
+
+<h2>GetAll</h2>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            @Html.ActionLink("Agregar equipo","Form")
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <table class="table table-hover">
+            <tr>
+                <th class="text-center">
+                    IdEquipo
+                </th>
+                <th class="text-center">
+                    Nombre
+                </th>
+                <th class="text-center">
+                    FechaFundacion
+                </th>
+                <th class="text-center">
+                    Logotipo
+                </th>
+                <th class="text-center">
+                    Eliminar
+                </th>
+            </tr>
+
+            @foreach (ML.Equipo equipo in Model.Equipos)
+            {
+                <tr>
+                    <td class="text-center">
+                        @equipo.IdEquipo
+                    </td>
+                    <td class="text-center">
+                        @equipo.Nombre
+                    </td>
+                    <td class="text-center">
+                        @equipo.FechaDeFundacion
+                    </td>
+                    <td class="text-center">
+
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(@equipo.Logotipo)" style="height: 75px; width: 75px" />
+
+                    </td>
+                    <td class="text-center">
+                        @Html.ActionLink("Eliminar", "Delete", new { IdEquipo=equipo.IdEquipo})
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

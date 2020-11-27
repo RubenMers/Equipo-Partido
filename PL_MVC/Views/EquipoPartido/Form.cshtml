@@ -1,0 +1,74 @@
+﻿@model ML.EquipoPartido
+@{
+    ViewBag.Title = "Form";
+}
+
+<h2>Form</h2>
+
+<div class="container">
+    <div class="row">
+        @using (Html.BeginForm("Form", "EquipoPartido", FormMethod.Post))
+        {
+            <div class="form-group hidden">
+                @Html.LabelFor(model => model.IdEquipoPartido, new { @class = "control-label col-md-2 hidden" })
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.IdEquipoPartido, new { @class = "form-control hidden", @readonly = true })
+                    @Html.ValidationMessageFor(model => model.IdEquipoPartido)
+                </div>
+            </div>
+
+
+    <div class="row">
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Equipo.Nombre, "Equipo", new { @class = "control-label" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+
+            @Html.DropDownListFor(model => model.Equipo.IdEquipo, new SelectList(Model.Equipo.Equipos, "IdEquipo", "Nombre"),
+                "Selecciona una opcion", new { @class = "formal-control" })
+
+            @Html.ValidationMessageFor(model => model.Equipo.Equipos)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.EquipoVisita.Nombre, "Equipo", new { @class = "control-label" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+
+            @Html.DropDownListFor(model => model.EquipoVisita.IdEquipo, new SelectList(Model.Equipo.Equipos, "IdEquipo", "Nombre"),
+                "Selecciona una opcion", new { @class = "formal-control" })
+
+            @Html.ValidationMessageFor(model => model.Equipo.Equipos)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Partido.Dia, "Dia", new { @class = "control-label" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+
+            @Html.DropDownListFor(model => model.Partido.IdPartido, new SelectList(Model.Partido.Partidos, "IdPartido", "Dia"),
+                "Selecciona un día", new { @class = "formal-control" })
+
+            @Html.ValidationMessageFor(model => model.Partido.Partidos)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="align-content-center">
+            <input type="submit" name="Upload" value="@ViewBag.Accion" class="btn btn-success" />
+            @Html.ActionLink("Cancelar", "GetAll", "EquipoPartido", htmlAttributes: new { @class = "btn btn-danger", })
+        </div>
+    </div>
+
+        }
+    </div>
+</div>

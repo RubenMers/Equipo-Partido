@@ -1,0 +1,71 @@
+﻿@model ML.Jugador
+@{
+    ViewBag.Title = "GetAll";
+}
+
+<h2>GetAll</h2>
+
+<div class="container">
+    <div class="row">
+        @Html.ActionLink("Agregar jugador", "Form")
+        
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <table class="table table-hover">
+            <tr>
+                <th class="text-center">
+                    Editar
+                </th>
+                <th class="text-center">
+                    IdJugador
+                </th>
+                <th class="text-center">
+                    Nombre
+                </th>
+                <th class="text-center">
+                    Fecha de nacimiento
+                </th>
+                <th class="text-center">
+                    Descripcion
+                </th>
+                <th class="text-center">
+                    IdEquipo
+                </th>
+                <th class="text-center">
+                    Eliminar
+                </th>
+            </tr>
+
+            @foreach (ML.Jugador jugador in Model.Jugadores)
+            {
+                <tr>
+                    <td class="text-center">
+                        @Html.ActionLink("Editar", "Form", new { IdJugador=jugador.IdJugador})
+                    </td>
+                    <td class="text-center">
+                        @jugador.IdJugador
+                    </td>
+                    <td class="text-center">
+                        @jugador.Nombre
+                    </td>
+                    <td class="text-center">
+                        @jugador.FechaDeNacimiento
+                    </td>
+                    <td class="text-center">
+                        @jugador.Descripcion
+                    </td>
+                    <td class="text-center">
+                        @jugador.Equipo.IdEquipo
+                    </td>
+                    <td class="text-center">
+                        @Html.ActionLink("Eliminar", "Delete", new { IdJugador = jugador.IdJugador })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

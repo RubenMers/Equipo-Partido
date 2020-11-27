@@ -1,0 +1,80 @@
+﻿@model ML.EquipoPartido
+@{
+    ViewBag.Title = "GetAll";
+}
+
+<h2>GetAll</h2>
+
+<div class="container">
+    <div class="row">
+        @Html.ActionLink("Agregar Partido", "Form","EquipoPartido", htmlAttributes: new { @class="btn btn-default"})
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <table class="table table-bordered">
+            <tr>
+                <th class="text-center">
+                    Editar
+                </th>
+                <th class="text-center">
+                    IdEquipoPartido
+                </th>
+                @*<th class="text-center">
+                    IdEquipo
+                </th>*@
+                <th class="text-center">
+                    Nombre Equipo Local
+                </th>
+                <th class="text-center">
+                    Nombre Equipo visita
+                </th>
+                @*<th class="text-center">
+                    IdPartido
+                </th>*@
+                <th class="text-center">
+                    Dia
+                </th>
+                <th class="text-center">
+                    Horario
+                </th>
+            </tr>
+
+
+            @foreach(ML.EquipoPartido equipoPartido in Model.EquipoPartidos){
+                
+                <tr>
+                    <td class="text-center">
+                        @Html.ActionLink("Editar", "Form", new { IdEquipoPartido = equipoPartido.IdEquipoPartido })
+                    </td>
+                    <td class="text-center">
+                        @equipoPartido.IdEquipoPartido
+                    </td>
+                    @*<td class="text-center">
+                        @equipoPartido.Equipo.IdEquipo
+                    </td>*@
+                    <td class="text-center">
+                        @equipoPartido.Equipo.Nombre
+                    </td>
+                    <td class="text-center">
+                        @equipoPartido.EquipoVisita.IdEquipo
+                    </td>
+                    @*<td class="text-center">
+                        @equipoPartido.Partido.IdPartido
+                    </td>*@
+                    <td class="text-center">
+                        @equipoPartido.Partido.Dia
+                    </td>
+                    <td class="text-center">
+                        @equipoPartido.Partido.Horario
+                    </td>
+                    <td class="text-center">
+                        @Html.ActionLink("Eliminar", "Delete", new { IdEquipoPartido = equipoPartido.IdEquipoPartido })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

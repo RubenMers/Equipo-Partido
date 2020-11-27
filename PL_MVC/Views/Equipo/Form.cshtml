@@ -1,0 +1,150 @@
+﻿@model ML.Equipo
+@{
+    ViewBag.Title = "Form";
+}
+
+<h2>Form</h2>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 style="text-align:justify"></h2><br />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4>@ViewBag.Titulo</h4>
+            <hr />
+        </div>
+    </div>
+
+
+    @using (Html.BeginForm("Form", "Equipo", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+
+        <div class="form-group hidden">
+            @Html.LabelFor(model => model.IdEquipo, new { @class = "control-label col-md-2 hidden" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.IdEquipo, new { @class = "form-control hidden", @readonly = true })
+                @Html.ValidationMessageFor(model => model.IdEquipo)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.Nombre, new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", placeholder = "Ingresar el Nombre" })
+                    @Html.ValidationMessageFor(model => model.Nombre)
+                </div>
+            </div>
+
+            @*---------------------------------------------------------------------------------------------------*@
+            
+
+            @*<div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.FechaDeFundacion, new { @class = "control-label col-md-2" })
+                </div>
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.FechaDeFundacion, new { @class = "form-control", placeholder = "Employee Date Of Birth", @readonly = "false" } )
+                    @Html.ValidationMessageFor(model => model.FechaDeFundacion, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.FechaDeFundacion, new { @class = "control-label" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.FechaDeFundacion, new { @class = "jquery_datepicker", @Value = Model.FechaDeFundacion.ToString("dd/MM/yyyy") })
+                    @Html.ValidationMessageFor(model => model.FechaDeFundacion)
+                </div>
+            </div>
+
+
+
+
+            <div class="card mb-8" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4" style="border:3px;border-color:black">
+                        <img id="Imagen" src="#" alt="LogoTipo" style="height:190px;width:190px" />
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+
+                            <p class="card-text">
+                                @Html.LabelFor(model => model.Logotipo)
+                            </p>
+
+                            <form enctype="multipart/form-data">
+
+                                <input type="file" name="Imagen" onchange="readURL(this);">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="align-content-center">
+                        <input type="submit" name="Upload" value="@ViewBag.Accion" class="btn btn-success" />
+                        @Html.ActionLink("Cancelar", "GetAll", "Equipo", htmlAttributes: new { @class = "btn btn-danger", })
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    }
+
+</div>
+
+
+@*---------------------------Para agregar la imagen---------------------------------*@
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#Imagen').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input[type=datetime]').datepicker({
+                dateFormat: "dd/M/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0"
+
+
+            });
+
+        });
+    </script>
+}

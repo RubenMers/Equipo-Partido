@@ -1,0 +1,628 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EquipoHRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Equipo">
+          <Key>
+            <PropertyRef Name="IdEquipo" />
+          </Key>
+          <Property Name="IdEquipo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="FechaDeFundacion" Type="date" />
+          <Property Name="Logotipo" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="EquipoPartido">
+          <Key>
+            <PropertyRef Name="IdEquipoPartido" />
+          </Key>
+          <Property Name="IdEquipoPartido" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEquipo" Type="int" />
+          <Property Name="Gol" Type="int" />
+          <Property Name="IdPartido" Type="int" />
+          <Property Name="IdEquipoVisita" Type="int" />
+        </EntityType>
+        <EntityType Name="Jugador">
+          <Key>
+            <PropertyRef Name="IdJugador" />
+          </Key>
+          <Property Name="IdJugador" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaDeNacimiento" Type="date" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="IdEquipo" Type="int" />
+        </EntityType>
+        <EntityType Name="Partido">
+          <Key>
+            <PropertyRef Name="IdPartido" />
+          </Key>
+          <Property Name="IdPartido" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Dia" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Horario" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Resultado">
+          <Key>
+            <PropertyRef Name="IdResultado" />
+          </Key>
+          <Property Name="IdResultado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEquipoPartido" Type="int" />
+        </EntityType>
+        <Association Name="FK__EquipoPar__IdEqu__2A4B4B5E">
+          <End Role="Equipo" Type="Self.Equipo" Multiplicity="0..1" />
+          <End Role="EquipoPartido" Type="Self.EquipoPartido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipo">
+              <PropertyRef Name="IdEquipo" />
+            </Principal>
+            <Dependent Role="EquipoPartido">
+              <PropertyRef Name="IdEquipoVisita" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Equipo">
+          <End Role="Equipo" Type="Self.Equipo" Multiplicity="0..1" />
+          <End Role="EquipoPartido" Type="Self.EquipoPartido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipo">
+              <PropertyRef Name="IdEquipo" />
+            </Principal>
+            <Dependent Role="EquipoPartido">
+              <PropertyRef Name="IdEquipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EquipoPartido">
+          <End Role="EquipoPartido" Type="Self.EquipoPartido" Multiplicity="0..1" />
+          <End Role="Resultado" Type="Self.Resultado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipoPartido">
+              <PropertyRef Name="IdEquipoPartido" />
+            </Principal>
+            <Dependent Role="Resultado">
+              <PropertyRef Name="IdEquipoPartido" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Partido">
+          <End Role="Partido" Type="Self.Partido" Multiplicity="0..1" />
+          <End Role="EquipoPartido" Type="Self.EquipoPartido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partido">
+              <PropertyRef Name="IdPartido" />
+            </Principal>
+            <Dependent Role="EquipoPartido">
+              <PropertyRef Name="IdPartido" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="EquipoAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="FechaDeFundacion" Type="date" Mode="In" />
+          <Parameter Name="Logotipo" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="EquipoDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEquipo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EquipoGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="EquipoPartidoAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEquipo" Type="int" Mode="In" />
+          <Parameter Name="IdPartido" Type="int" Mode="In" />
+          <Parameter Name="IdEquipoVisita" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EquipoPartidoDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEquipoPartido" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EquipoPartidoGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="EquipoPartidoGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEquipoPartido" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EquipoPartidoGetByIdInner" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEquipoPartido" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EquipoPartidoInnerJoin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="EquipoPartidoUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEquipoPartido" Type="int" Mode="In" />
+          <Parameter Name="IdEquipo" Type="int" Mode="In" />
+          <Parameter Name="IdPartido" Type="int" Mode="In" />
+          <Parameter Name="IdEquipoVisita" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EquipoUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEquipo" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="FechaDeFundacion" Type="date" Mode="In" />
+          <Parameter Name="Logotipo" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="IdEquipoGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEquipo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="JugadorAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="FechaDeNacimiento" Type="date" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="IdEquipo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="JugadorDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdJugador" Type="int" Mode="In" />
+        </Function>
+        <Function Name="JugadorGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="JugadorGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdJugador" Type="int" Mode="In" />
+        </Function>
+        <Function Name="JugadorUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdJugador" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="FechaDeNacimiento" Type="date" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="IdEquipo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PartidoGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="EquipoHRModelStoreContainer">
+          <EntitySet Name="Equipo" EntityType="Self.Equipo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipoPartido" EntityType="Self.EquipoPartido" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Jugador" EntityType="Self.Jugador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Partido" EntityType="Self.Partido" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Resultado" EntityType="Self.Resultado" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__EquipoPar__IdEqu__2A4B4B5E" Association="Self.FK__EquipoPar__IdEqu__2A4B4B5E">
+            <End Role="Equipo" EntitySet="Equipo" />
+            <End Role="EquipoPartido" EntitySet="EquipoPartido" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Equipo" Association="Self.FK_Equipo">
+            <End Role="Equipo" EntitySet="Equipo" />
+            <End Role="EquipoPartido" EntitySet="EquipoPartido" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EquipoPartido" Association="Self.FK_EquipoPartido">
+            <End Role="EquipoPartido" EntitySet="EquipoPartido" />
+            <End Role="Resultado" EntitySet="Resultado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Partido" Association="Self.FK_Partido">
+            <End Role="Partido" EntitySet="Partido" />
+            <End Role="EquipoPartido" EntitySet="EquipoPartido" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EquipoHRModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Jugador">
+          <Key>
+            <PropertyRef Name="IdJugador" />
+          </Key>
+          <Property Name="IdJugador" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaDeNacimiento" Type="DateTime" Precision="0" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IdEquipo" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Resultado">
+          <Key>
+            <PropertyRef Name="IdResultado" />
+          </Key>
+          <Property Name="IdResultado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEquipoPartido" Type="Int32" />
+          <NavigationProperty Name="EquipoPartido" Relationship="EquipoHRModel.FK_EquipoPartido" FromRole="Resultado" ToRole="EquipoPartido" />
+        </EntityType>
+        <EntityContainer Name="EquipoHREntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Jugadors" EntityType="Self.Jugador" />
+          <EntitySet Name="Resultadoes" EntityType="Self.Resultado" />
+          <FunctionImport Name="EquipoAdd">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="FechaDeFundacion" Mode="In" Type="DateTime" />
+            <Parameter Name="Logotipo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="EquipoDelete">
+          <Parameter Name="IdEquipo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EquipoGetAll" ReturnType="Collection(EquipoHRModel.EquipoGetAll_Result)" />
+          <FunctionImport Name="EquipoUpdate">
+            <Parameter Name="IdEquipo" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="FechaDeFundacion" Mode="In" Type="DateTime" />
+            <Parameter Name="Logotipo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="IdEquipoGetById" ReturnType="Collection(EquipoHRModel.IdEquipoGetById_Result)">
+          <Parameter Name="IdEquipo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Equipoes" EntityType="EquipoHRModel.Equipo" />
+          <FunctionImport Name="JugadorAdd">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="FechaDeNacimiento" Mode="In" Type="DateTime" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="IdEquipo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="JugadorDelete">
+          <Parameter Name="IdJugador" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="JugadorGetAll" ReturnType="Collection(EquipoHRModel.JugadorGetAll_Result)" />
+          <FunctionImport Name="JugadorUpdate">
+            <Parameter Name="IdJugador" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="FechaDeNacimiento" Mode="In" Type="DateTime" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="IdEquipo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="JugadorGetById" ReturnType="Collection(EquipoHRModel.JugadorGetById_Result)">
+          <Parameter Name="IdJugador" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Partidoes" EntityType="EquipoHRModel.Partido" />
+          <FunctionImport Name="EquipoPartidoGetAll" ReturnType="Collection(EquipoHRModel.EquipoPartidoGetAll_Result)" />
+          <FunctionImport Name="PartidoGetAll" ReturnType="Collection(EquipoHRModel.PartidoGetAll_Result)" />
+          <EntitySet Name="EquipoPartidoes" EntityType="EquipoHRModel.EquipoPartido" />
+          <AssociationSet Name="FK__EquipoPar__IdEqu__2A4B4B5E" Association="EquipoHRModel.FK__EquipoPar__IdEqu__2A4B4B5E">
+            <End Role="Equipo" EntitySet="Equipoes" />
+            <End Role="EquipoPartido" EntitySet="EquipoPartidoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Equipo" Association="EquipoHRModel.FK_Equipo">
+            <End Role="Equipo" EntitySet="Equipoes" />
+            <End Role="EquipoPartido" EntitySet="EquipoPartidoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EquipoPartido" Association="EquipoHRModel.FK_EquipoPartido">
+            <End Role="EquipoPartido" EntitySet="EquipoPartidoes" />
+            <End Role="Resultado" EntitySet="Resultadoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Partido" Association="EquipoHRModel.FK_Partido">
+            <End Role="Partido" EntitySet="Partidoes" />
+            <End Role="EquipoPartido" EntitySet="EquipoPartidoes" />
+          </AssociationSet>
+          <FunctionImport Name="EquipoPartidoInnerJoin" ReturnType="Collection(EquipoHRModel.EquipoPartidoInnerJoin_Result1)" />
+          <FunctionImport Name="EquipoPartidoAdd">
+            <Parameter Name="IdEquipo" Mode="In" Type="Int32" />
+            <Parameter Name="IdPartido" Mode="In" Type="Int32" />
+            <Parameter Name="IdEquipoVisita" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EquipoPartidoGetById" ReturnType="Collection(EquipoHRModel.EquipoPartidoGetById_Result)">
+          <Parameter Name="IdEquipoPartido" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EquipoPartidoUpdate">
+            <Parameter Name="IdEquipoPartido" Mode="In" Type="Int32" />
+            <Parameter Name="IdEquipo" Mode="In" Type="Int32" />
+            <Parameter Name="IdPartido" Mode="In" Type="Int32" />
+            <Parameter Name="IdEquipoVisita" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EquipoPartidoGetByIdInner" ReturnType="Collection(EquipoHRModel.EquipoPartidoGetByIdInner_Result)">
+          <Parameter Name="IdEquipoPartido" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EquipoPartidoDelete">
+            <Parameter Name="IdEquipoPartido" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="EquipoGetAll_Result">
+          <Property Type="Int32" Name="IdEquipo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="15" />
+          <Property Type="DateTime" Name="FechaDeFundacion" Nullable="true" />
+          <Property Type="String" Name="Logotipo" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="IdEquipoGetById_Result">
+          <Property Type="Int32" Name="IdEquipo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="15" />
+          <Property Type="DateTime" Name="FechaDeFundacion" Nullable="true" />
+          <Property Type="String" Name="Logotipo" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="Equipo">
+          <Key>
+            <PropertyRef Name="IdEquipo" />
+          </Key>
+          <Property Name="IdEquipo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="FechaDeFundacion" Type="DateTime" Precision="0" />
+          <Property Name="Logotipo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EquipoPartidoes" Relationship="EquipoHRModel.FK__EquipoPar__IdEqu__2A4B4B5E" FromRole="Equipo" ToRole="EquipoPartido" />
+          <NavigationProperty Name="EquipoPartidoes1" Relationship="EquipoHRModel.FK_Equipo" FromRole="Equipo" ToRole="EquipoPartido" />
+        </EntityType>
+        <ComplexType Name="JugadorGetAll_Result">
+          <Property Type="Int32" Name="IdJugador" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaDeNacimiento" Nullable="true" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IdEquipo" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="JugadorGetById_Result">
+          <Property Type="Int32" Name="IdJugador" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaDeNacimiento" Nullable="true" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IdEquipo" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="Partido">
+          <Key>
+            <PropertyRef Name="IdPartido" />
+          </Key>
+          <Property Name="IdPartido" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Dia" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Horario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EquipoPartidoes" Relationship="EquipoHRModel.FK_Partido" FromRole="Partido" ToRole="EquipoPartido" />
+        </EntityType>
+        <ComplexType Name="EquipoPartidoGetAll_Result">
+          <Property Type="Int32" Name="IdEquipoPartido" Nullable="false" />
+          <Property Type="Int32" Name="IdEquipo" Nullable="true" />
+          <Property Type="Int32" Name="IdEquipo1" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="PartidoGetAll_Result">
+          <Property Type="Int32" Name="IdPartido" Nullable="false" />
+          <Property Type="String" Name="Dia" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Horario" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <EntityType Name="EquipoPartido">
+          <Key>
+            <PropertyRef Name="IdEquipoPartido" />
+          </Key>
+          <Property Name="IdEquipoPartido" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEquipo" Type="Int32" />
+          <Property Name="Gol" Type="Int32" />
+          <Property Name="IdPartido" Type="Int32" />
+          <Property Name="IdEquipoVisita" Type="Int32" />
+          <NavigationProperty Name="Equipo" Relationship="EquipoHRModel.FK__EquipoPar__IdEqu__2A4B4B5E" FromRole="EquipoPartido" ToRole="Equipo" />
+          <NavigationProperty Name="Equipo1" Relationship="EquipoHRModel.FK_Equipo" FromRole="EquipoPartido" ToRole="Equipo" />
+          <NavigationProperty Name="Resultadoes" Relationship="EquipoHRModel.FK_EquipoPartido" FromRole="EquipoPartido" ToRole="Resultado" />
+          <NavigationProperty Name="Partido" Relationship="EquipoHRModel.FK_Partido" FromRole="EquipoPartido" ToRole="Partido" />
+        </EntityType>
+        <Association Name="FK__EquipoPar__IdEqu__2A4B4B5E">
+          <End Type="EquipoHRModel.Equipo" Role="Equipo" Multiplicity="0..1" />
+          <End Type="EquipoHRModel.EquipoPartido" Role="EquipoPartido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipo">
+              <PropertyRef Name="IdEquipo" />
+            </Principal>
+            <Dependent Role="EquipoPartido">
+              <PropertyRef Name="IdEquipoVisita" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Equipo">
+          <End Type="EquipoHRModel.Equipo" Role="Equipo" Multiplicity="0..1" />
+          <End Type="EquipoHRModel.EquipoPartido" Role="EquipoPartido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipo">
+              <PropertyRef Name="IdEquipo" />
+            </Principal>
+            <Dependent Role="EquipoPartido">
+              <PropertyRef Name="IdEquipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EquipoPartido">
+          <End Type="EquipoHRModel.EquipoPartido" Role="EquipoPartido" Multiplicity="0..1" />
+          <End Type="EquipoHRModel.Resultado" Role="Resultado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipoPartido">
+              <PropertyRef Name="IdEquipoPartido" />
+            </Principal>
+            <Dependent Role="Resultado">
+              <PropertyRef Name="IdEquipoPartido" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Partido">
+          <End Type="EquipoHRModel.Partido" Role="Partido" Multiplicity="0..1" />
+          <End Type="EquipoHRModel.EquipoPartido" Role="EquipoPartido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partido">
+              <PropertyRef Name="IdPartido" />
+            </Principal>
+            <Dependent Role="EquipoPartido">
+              <PropertyRef Name="IdPartido" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="EquipoPartidoInnerJoin_Result">
+          <Property Type="Int32" Name="IdEquipo" Nullable="false" />
+          <Property Type="String" Name="NombreEquipo" Nullable="false" MaxLength="15" />
+          <Property Type="Int32" Name="IdPartido" Nullable="false" />
+          <Property Type="String" Name="Dia" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Horario" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="IdEquipoPartido" Nullable="false" />
+          <Property Type="String" Name="NombreEquipoVisita" Nullable="false" MaxLength="15" />
+        </ComplexType>
+        <ComplexType Name="EquipoPartidoInnerJoin_Result1">
+          <Property Type="Int32" Name="IdEquipo" Nullable="true" />
+          <Property Type="String" Name="NombreEquipo" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="IdEquipoVisita" Nullable="true" />
+          <Property Type="String" Name="NombreEquipoVisita" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="IdPartido" Nullable="false" />
+          <Property Type="String" Name="Dia" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Horario" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="IdEquipoPartido" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="EquipoPartidoGetById_Result">
+          <Property Type="Int32" Name="IdEquipoPartido" Nullable="false" />
+          <Property Type="Int32" Name="IdEquipo" Nullable="true" />
+          <Property Type="Int32" Name="IdPartido" Nullable="true" />
+          <Property Type="Int32" Name="IdEquipoVisita" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="EquipoPartidoGetByIdInner_Result">
+          <Property Type="Int32" Name="IdEquipo" Nullable="true" />
+          <Property Type="String" Name="NombreEquipo" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="IdEquipoVisita" Nullable="true" />
+          <Property Type="String" Name="NombreEquipoVisita" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="IdPartido" Nullable="false" />
+          <Property Type="String" Name="Dia" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Horario" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="IdEquipoPartido" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EquipoHRModelStoreContainer" CdmEntityContainer="EquipoHREntities">
+          <EntitySetMapping Name="Jugadors">
+            <EntityTypeMapping TypeName="EquipoHRModel.Jugador">
+              <MappingFragment StoreEntitySet="Jugador">
+                <ScalarProperty Name="IdJugador" ColumnName="IdJugador" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="FechaDeNacimiento" ColumnName="FechaDeNacimiento" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Resultadoes">
+            <EntityTypeMapping TypeName="EquipoHRModel.Resultado">
+              <MappingFragment StoreEntitySet="Resultado">
+                <ScalarProperty Name="IdResultado" ColumnName="IdResultado" />
+                <ScalarProperty Name="IdEquipoPartido" ColumnName="IdEquipoPartido" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="EquipoAdd" FunctionName="EquipoHRModel.Store.EquipoAdd" />
+          <FunctionImportMapping FunctionImportName="EquipoDelete" FunctionName="EquipoHRModel.Store.EquipoDelete" />
+          <FunctionImportMapping FunctionImportName="EquipoGetAll" FunctionName="EquipoHRModel.Store.EquipoGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EquipoHRModel.EquipoGetAll_Result">
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="FechaDeFundacion" ColumnName="FechaDeFundacion" />
+                <ScalarProperty Name="Logotipo" ColumnName="Logotipo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="EquipoUpdate" FunctionName="EquipoHRModel.Store.EquipoUpdate" />
+          <FunctionImportMapping FunctionImportName="IdEquipoGetById" FunctionName="EquipoHRModel.Store.IdEquipoGetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EquipoHRModel.IdEquipoGetById_Result">
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="FechaDeFundacion" ColumnName="FechaDeFundacion" />
+                <ScalarProperty Name="Logotipo" ColumnName="Logotipo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Equipoes">
+            <EntityTypeMapping TypeName="EquipoHRModel.Equipo">
+              <MappingFragment StoreEntitySet="Equipo">
+                <ScalarProperty Name="Logotipo" ColumnName="Logotipo" />
+                <ScalarProperty Name="FechaDeFundacion" ColumnName="FechaDeFundacion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="JugadorAdd" FunctionName="EquipoHRModel.Store.JugadorAdd" />
+          <FunctionImportMapping FunctionImportName="JugadorDelete" FunctionName="EquipoHRModel.Store.JugadorDelete" />
+          <FunctionImportMapping FunctionImportName="JugadorGetAll" FunctionName="EquipoHRModel.Store.JugadorGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EquipoHRModel.JugadorGetAll_Result">
+                <ScalarProperty Name="IdJugador" ColumnName="IdJugador" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="FechaDeNacimiento" ColumnName="FechaDeNacimiento" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="JugadorUpdate" FunctionName="EquipoHRModel.Store.JugadorUpdate" />
+          <FunctionImportMapping FunctionImportName="JugadorGetById" FunctionName="EquipoHRModel.Store.JugadorGetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EquipoHRModel.JugadorGetById_Result">
+                <ScalarProperty Name="IdJugador" ColumnName="IdJugador" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="FechaDeNacimiento" ColumnName="FechaDeNacimiento" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Partidoes">
+            <EntityTypeMapping TypeName="EquipoHRModel.Partido">
+              <MappingFragment StoreEntitySet="Partido">
+                <ScalarProperty Name="Horario" ColumnName="Horario" />
+                <ScalarProperty Name="Dia" ColumnName="Dia" />
+                <ScalarProperty Name="IdPartido" ColumnName="IdPartido" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="EquipoPartidoGetAll" FunctionName="EquipoHRModel.Store.EquipoPartidoGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EquipoHRModel.EquipoPartidoGetAll_Result">
+                <ScalarProperty Name="IdEquipoPartido" ColumnName="IdEquipoPartido" />
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+                <ScalarProperty Name="IdEquipo1" ColumnName="IdEquipo1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PartidoGetAll" FunctionName="EquipoHRModel.Store.PartidoGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EquipoHRModel.PartidoGetAll_Result">
+                <ScalarProperty Name="IdPartido" ColumnName="IdPartido" />
+                <ScalarProperty Name="Dia" ColumnName="Dia" />
+                <ScalarProperty Name="Horario" ColumnName="Horario" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="EquipoPartidoes">
+            <EntityTypeMapping TypeName="EquipoHRModel.EquipoPartido">
+              <MappingFragment StoreEntitySet="EquipoPartido">
+                <ScalarProperty Name="IdEquipoVisita" ColumnName="IdEquipoVisita" />
+                <ScalarProperty Name="IdPartido" ColumnName="IdPartido" />
+                <ScalarProperty Name="Gol" ColumnName="Gol" />
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+                <ScalarProperty Name="IdEquipoPartido" ColumnName="IdEquipoPartido" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="EquipoPartidoInnerJoin" FunctionName="EquipoHRModel.Store.EquipoPartidoInnerJoin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EquipoHRModel.EquipoPartidoInnerJoin_Result1">
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+                <ScalarProperty Name="NombreEquipo" ColumnName="NombreEquipo" />
+                <ScalarProperty Name="IdEquipoVisita" ColumnName="IdEquipoVisita" />
+                <ScalarProperty Name="NombreEquipoVisita" ColumnName="NombreEquipoVisita" />
+                <ScalarProperty Name="IdPartido" ColumnName="IdPartido" />
+                <ScalarProperty Name="Dia" ColumnName="Dia" />
+                <ScalarProperty Name="Horario" ColumnName="Horario" />
+                <ScalarProperty Name="IdEquipoPartido" ColumnName="IdEquipoPartido" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="EquipoPartidoAdd" FunctionName="EquipoHRModel.Store.EquipoPartidoAdd" />
+          <FunctionImportMapping FunctionImportName="EquipoPartidoGetById" FunctionName="EquipoHRModel.Store.EquipoPartidoGetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EquipoHRModel.EquipoPartidoGetById_Result">
+                <ScalarProperty Name="IdEquipoPartido" ColumnName="IdEquipoPartido" />
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+                <ScalarProperty Name="IdPartido" ColumnName="IdPartido" />
+                <ScalarProperty Name="IdEquipoVisita" ColumnName="IdEquipoVisita" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="EquipoPartidoUpdate" FunctionName="EquipoHRModel.Store.EquipoPartidoUpdate" />
+          <FunctionImportMapping FunctionImportName="EquipoPartidoGetByIdInner" FunctionName="EquipoHRModel.Store.EquipoPartidoGetByIdInner">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EquipoHRModel.EquipoPartidoGetByIdInner_Result">
+                <ScalarProperty Name="IdEquipo" ColumnName="IdEquipo" />
+                <ScalarProperty Name="NombreEquipo" ColumnName="NombreEquipo" />
+                <ScalarProperty Name="IdEquipoVisita" ColumnName="IdEquipoVisita" />
+                <ScalarProperty Name="NombreEquipoVisita" ColumnName="NombreEquipoVisita" />
+                <ScalarProperty Name="IdPartido" ColumnName="IdPartido" />
+                <ScalarProperty Name="Dia" ColumnName="Dia" />
+                <ScalarProperty Name="Horario" ColumnName="Horario" />
+                <ScalarProperty Name="IdEquipoPartido" ColumnName="IdEquipoPartido" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="EquipoPartidoDelete" FunctionName="EquipoHRModel.Store.EquipoPartidoDelete" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
